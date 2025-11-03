@@ -150,6 +150,9 @@
 
             // 更新动画显示 - 使用实际的GIF图片
             const animationDisplay = document.getElementById('animationDisplay');
+
+           // 将相对路径改为绝对路径
+            const gifPath = `https://luwen420/oracle-bone-demo/tree/main/animations/${char}.gif`;
             
             // 创建图片元素
             const img = document.createElement('img');
