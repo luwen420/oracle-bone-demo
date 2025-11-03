@@ -3,881 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>甲骨文动画演示馆 - 50字扩展版</title>
+    <title>甲骨文动画演示</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: "SimSun", "宋体", serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f3e6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
+            font-family: 'SimSun', 'STKaiti', serif;
+            max-width: 800px;
             margin: 0 auto;
-            background-color: rgba(255, 253, 245, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            border: 1px solid #d9c7a3;
+            padding: 20px;
+            background-color: #f5f2e9;
+            color: #333;
         }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #b38e5d;
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
         h1 {
-            color: #8c2e0d;
-            font-size: 2.8em;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #755c2e;
-            font-size: 1.2em;
-        }
-        
-        .search-section {
             text-align: center;
-            margin-bottom: 40px;
+            color: #8c6d46;
+            border-bottom: 2px solid #e0d6c3;
+            padding-bottom: 10px;
         }
-        
         .search-box {
             display: flex;
-            max-width: 500px;
-            margin: 0 auto;
+            margin-bottom: 20px;
         }
-        
-        #search-input {
+        #characterInput {
             flex: 1;
-            padding: 12px 15px;
+            padding: 10px;
             font-size: 18px;
-            border: 2px solid #b38e5d;
-            border-radius: 5px 0 0 5px;
-            outline: none;
-            font-family: "SimSun", "宋体", serif;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-family: 'SimSun', 'STKaiti', serif;
         }
-        
-        #search-btn {
-            padding: 12px 25px;
-            background-color: #8c2e0d;
+        #searchButton {
+            padding: 10px 20px;
+            background-color: #8c6d46;
             color: white;
             border: none;
-            border-radius: 0 5px 5px 0;
+            border-radius: 0 4px 4px 0;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s;
         }
-        
-        #search-btn:hover {
-            background-color: #6d230a;
+        #searchButton:hover {
+            background-color: #7a5d3a;
         }
-        
-        .display-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 40px;
+        .result {
+            margin-top: 20px;
         }
-        
-        .animation-container {
-            flex: 1;
-            min-width: 300px;
-            text-align: center;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #d9c7a3;
+        .character-info {
+            margin-bottom: 20px;
         }
-        
-        .animation-placeholder {
+        .character-info p {
+            margin: 5px 0;
+        }
+        .animation-display {
             width: 100%;
-            height: 250px;
-            background-color: #f5f0e1;
+            height: 300px;
+            border: 1px solid #e0d6c3;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed #b38e5d;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #755c2e;
-        }
-        
-        .character-info {
-            text-align: left;
-        }
-        
-        .character-name {
-            font-size: 2.5em;
-            color: #8c2e0d;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        
-        .character-pinyin {
-            text-align: center;
-            color: #755c2e;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-        }
-        
-        .info-item {
-            margin-bottom: 10px;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            color: #8c2e0d;
-        }
-        
-        .library-section {
-            margin-bottom: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.8em;
-            color: #8c2e0d;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #d9c7a3;
-        }
-        
-        .category-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .category-btn {
-            padding: 8px 15px;
-            background-color: #e8dfca;
-            border: 1px solid #b38e5d;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .category-btn.active {
-            background-color: #8c2e0d;
-            color: white;
-        }
-        
-        .character-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-        }
-        
-        .character-item {
-            text-align: center;
-            padding: 15px 10px;
-            background: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #d9c7a3;
-        }
-        
-        .character-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-color: #8c2e0d;
-        }
-        
-        .char-display {
-            font-size: 2.5em;
-            margin-bottom: 5px;
-        }
-        
-        .char-name {
-            font-size: 1em;
-            color: #755c2e;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #d9c7a3;
-            color: #755c2e;
-            font-size: 0.9em;
-        }
-        
-        .instructions {
-            background-color: #f5f0e1;
-            padding: 15px;
-            border-radius: 5px;
+            background-color: #f9f7f2;
             margin-top: 20px;
-            border-left: 4px solid #8c2e0d;
         }
-        
-        @media (max-width: 768px) {
-            .display-section {
-                flex-direction: column;
-            }
-            
-            .character-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
+        .animation-display img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .error-message {
+            text-align: center;
+            color: #755c2e;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>甲骨文动画演示馆</h1>
-            <p class="subtitle">探索汉字起源，感受千年文明 - 50字扩展版</p>
-        </header>
+        <h1>甲骨文动画演示</h1>
         
-        <section class="search-section">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="请输入汉字...">
-                <button id="search-btn">搜索</button>
-            </div>
-        </section>
-        
-        <section class="display-section">
-            <div class="animation-container">
-                <div class="animation-placeholder" id="animation-display">
-                    动画将在此处显示
-                </div>
-                <div class="character-info">
-                    <div class="character-name" id="char-name">人</div>
-                    <div class="character-pinyin" id="char-pinyin">rén</div>
-                    <div class="info-item">
-                        <span class="info-label">字义：</span>
-                        <span id="char-meaning">象形字，像侧面站立的人形</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">字源：</span>
-                        <span id="char-etymology">甲骨文中的'人'字，取人侧立之形，因侧立才能展现臂胫之形。</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">演变：</span>
-                        <span id="char-evolution">甲骨文 → 金文 → 小篆 → 隶书 → 楷书</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">相关诗词：</span>
-                        <span id="char-poetry">人生若只如初见，何事秋风悲画扇。——纳兰性德《木兰花令》</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="library-section">
-            <h2 class="section-title">50个常用字库</h2>
-            
-            <div class="category-buttons">
-                <button class="category-btn active" data-category="all">全部</button>
-                <button class="category-btn" data-category="human">人体相关</button>
-                <button class="category-btn" data-category="nature">自然现象</button>
-                <button class="category-btn" data-category="animal">动物世界</button>
-                <button class="category-btn" data-category="daily">日常生活</button>
-                <button class="category-btn" data-category="number">数字方位</button>
-            </div>
-            
-            <div class="character-grid" id="character-grid">
-                <!-- 字符将通过JavaScript动态生成 -->
-            </div>
-        </section>
-        
-        <div class="instructions">
-            <p><strong>使用说明：</strong> 点击下方任意汉字，将显示该字的甲骨文动画和详细信息。您也可以在搜索框中输入汉字进行查询。</p>
+        <div class="search-box">
+            <input type="text" id="characterInput" placeholder="请输入汉字...">
+            <button id="searchButton">搜索</button>
         </div>
         
-        <footer>
-            <p>甲骨文动画演示馆 &copy; 2023 | 中文系学生项目</p>
-            <p>本网站仅用于教育目的</p>
-        </footer>
+        <div class="result">
+            <div class="character-info">
+                <p><strong>汉字:</strong> <span id="charName">-</span></p>
+                <p><strong>拼音:</strong> <span id="charPinyin">-</span></p>
+                <p><strong>含义:</strong> <span id="charMeaning">-</span></p>
+                <p><strong>字源:</strong> <span id="charEtymology">-</span></p>
+                <p><strong>演变:</strong> <span id="charEvolution">-</span></p>
+                <p><strong>诗词:</strong> <span id="charPoetry">-</span></p>
+            </div>
+            
+            <div class="animation-display" id="animationDisplay">
+                <div class="error-message">
+                    <div style="font-size: 6em; margin-bottom: 20px;">?</div>
+                    <p>请输入汉字查看甲骨文动画</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // 扩展的字符数据库 - 50个常用字
+        // 示例数据 - 您可以根据需要扩展
         const characterData = {
-            "人": { 
+            "人": {
                 pinyin: "rén",
-                meaning: "象形字，像侧面站立的人形",
-                etymology: "甲骨文中的'人'字，取人侧立之形，因侧立才能展现臂胫之形。",
+                meaning: "人类，能制造工具并使用工具进行劳动的高等动物",
+                etymology: "象形字，像一个侧立的人形",
                 evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "人生若只如初见，何事秋风悲画扇。——纳兰性德《木兰花令》",
-                category: "human"
+                poetry: "人生自古谁无死，留取丹心照汗青。"
             },
-            "山": {
-                pinyin: "shān",
-                meaning: "象形字，像山峰并立的形状",
-                etymology: "甲骨文像三座山峰，中间高两边低，后简化为三竖。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "会当凌绝顶，一览众山小。——杜甫《望岳》",
-                category: "nature"
-            },
-            "水": {
-                pinyin: "shuǐ",
-                meaning: "象形字，像水流蜿蜒的形状",
-                etymology: "甲骨文像河流，中间是水流，两旁是河岸。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "所谓伊人，在水一方。——《诗经·秦风·蒹葭》",
-                category: "nature"
-            },
-            "日": {
-                pinyin: "rì",
-                meaning: "象形字，像太阳的形状",
-                etymology: "甲骨文像太阳的圆形，中间有一点表示太阳的光辉。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "日出江花红胜火，春来江水绿如蓝。——白居易《忆江南》",
-                category: "nature"
-            },
-            "月": {
-                pinyin: "yuè",
-                meaning: "象形字，像月亮的形状",
-                etymology: "甲骨文像弦月的形状，因月亮圆时少，缺时多，故取缺月之形。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "举头望明月，低头思故乡。——李白《静夜思》",
-                category: "nature"
-            },
-            "马": {
-                pinyin: "mǎ",
-                meaning: "象形字，像马的形状",
-                etymology: "甲骨文突出马的长脸、鬃毛和尾巴，生动表现马的特征。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "草枯鹰眼疾，雪尽马蹄轻。——王维《观猎》",
-                category: "animal"
-            },
-            "鱼": {
-                pinyin: "yú",
-                meaning: "象形字，像鱼的形状",
-                etymology: "甲骨文有鱼头、鱼身、鱼鳞和鱼尾，形态逼真。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "西塞山前白鹭飞，桃花流水鳜鱼肥。——张志和《渔歌子》",
-                category: "animal"
-            },
-            "木": {
-                pinyin: "mù",
-                meaning: "象形字，像树木的形状",
-                etymology: "甲骨文上有枝干，下有树根，中间是树干。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "无边落木萧萧下，不尽长江滚滚来。——杜甫《登高》",
-                category: "nature"
-            },
-            "火": {
-                pinyin: "huǒ",
-                meaning: "象形字，像火焰的形状",
-                etymology: "甲骨文像火焰升腾的形状，上尖下宽。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "野火烧不尽，春风吹又生。——白居易《赋得古原草送别》",
-                category: "nature"
-            },
-            "女": {
-                pinyin: "nǚ",
-                meaning: "象形字，像跪坐的女子形状",
-                etymology: "甲骨文像一位跪坐的女子，双手交叉在胸前，显得恭敬柔顺。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "窈窕淑女，君子好逑。——《诗经·周南·关雎》",
-                category: "human"
-            },
-            "子": {
-                pinyin: "zǐ",
-                meaning: "象形字，像婴儿的形状",
-                etymology: "甲骨文像襁褓中的婴儿，突出大头和挥舞的双手。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "慈母手中线，游子身上衣。——孟郊《游子吟》",
-                category: "human"
-            },
-            "门": {
-                pinyin: "mén",
-                meaning: "象形字，像双扇门的形状",
-                etymology: "甲骨文像两扇门板，有的还有门楣。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "花径不曾缘客扫，蓬门今始为君开。——杜甫《客至》",
-                category: "daily"
-            },
-            "车": {
-                pinyin: "chē",
-                meaning: "象形字，像古代马车的形状",
-                etymology: "甲骨文像俯视的马车，有车厢、车轴和两个轮子。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "宝马雕车香满路。——辛弃疾《青玉案·元夕》",
-                category: "daily"
-            },
-            "天": {
-                pinyin: "tiān",
-                meaning: "象形字，像人头顶上的天空",
-                etymology: "甲骨文像正面站立的人形，突出头部，表示头顶上的天空。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "天苍苍，野茫茫，风吹草低见牛羊。——《敕勒歌》",
-                category: "nature"
-            },
-            "地": {
-                pinyin: "dì",
-                meaning: "形声字，从土也声",
-                etymology: "甲骨文由'土'和'也'组成，表示土地、大地。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "天长地久有时尽，此恨绵绵无绝期。——白居易《长恨歌》",
-                category: "nature"
-            },
-            "雨": {
-                pinyin: "yǔ",
-                meaning: "象形字，像天上落下的水滴",
-                etymology: "甲骨文上面一横代表天，下面的点代表雨滴。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "好雨知时节，当春乃发生。——杜甫《春夜喜雨》",
-                category: "nature"
-            },
-            "风": {
-                pinyin: "fēng",
-                meaning: "形声字，从虫凡声",
-                etymology: "甲骨文像凤凰的形象，古人认为风是凤凰飞行带来的。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "长风破浪会有时，直挂云帆济沧海。——李白《行路难》",
-                category: "nature"
-            },
-            "云": {
-                pinyin: "yún",
-                meaning: "象形字，像天空中卷曲的云朵",
-                etymology: "甲骨文像天空中舒卷的云气形状。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "云想衣裳花想容，春风拂槛露华浓。——李白《清平调》",
-                category: "nature"
-            },
-            "花": {
-                pinyin: "huā",
-                meaning: "形声字，从艸化声",
-                etymology: "甲骨文由草字头和'化'组成，表示植物变化开放的部分。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "花自飘零水自流，一种相思，两处闲愁。——李清照《一剪梅》",
-                category: "nature"
-            },
-            "草": {
-                pinyin: "cǎo",
-                meaning: "象形字，像初生的小草",
-                etymology: "甲骨文像两棵初生的小草，表示草本植物。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "离离原上草，一岁一枯荣。——白居易《赋得古原草送别》",
-                category: "nature"
-            },
-            "石": {
-                pinyin: "shí",
-                meaning: "象形字，像山崖下的石块",
-                etymology: "甲骨文像山崖下的一块石头。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "明月松间照，清泉石上流。——王维《山居秋暝》",
-                category: "nature"
-            },
-            "田": {
-                pinyin: "tián",
-                meaning: "象形字，像划分成块的农田",
-                etymology: "甲骨文像被阡陌划分成方块的田地。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "田家少闲月，五月人倍忙。——白居易《观刈麦》",
-                category: "daily"
-            },
-            "土": {
-                pinyin: "tǔ",
-                meaning: "象形字，像地面上突起的土块",
-                etymology: "甲骨文像地面上突起的土块或土堆。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "普天之下，莫非王土。——《诗经·小雅·北山》",
-                category: "nature"
-            },
-            "口": {
-                pinyin: "kǒu",
-                meaning: "象形字，像人或动物的嘴巴",
-                etymology: "甲骨文像人或动物张开的口形。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "朱门酒肉臭，路有冻死骨。——杜甫《自京赴奉先县咏怀五百字》",
-                category: "human"
-            },
-            "手": {
-                pinyin: "shǒu",
-                meaning: "象形字，像人手的形状",
-                etymology: "甲骨文像一只手的侧面形状，有五指。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "执手相看泪眼，竟无语凝噎。——柳永《雨霖铃》",
-                category: "human"
-            },
-            "足": {
-                pinyin: "zú",
-                meaning: "象形字，像人的脚和腿",
-                etymology: "甲骨文像人的下肢，包括大腿、小腿和脚。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "千里之行，始于足下。——《道德经》",
-                category: "human"
-            },
-            "目": {
-                pinyin: "mù",
-                meaning: "象形字，像人的眼睛",
-                etymology: "甲骨文像一只横置的眼睛，有瞳孔和眼角。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "回眸一笑百媚生，六宫粉黛无颜色。——白居易《长恨歌》",
-                category: "human"
-            },
-            "耳": {
-                pinyin: "ěr",
-                meaning: "象形字，像人的耳朵",
-                etymology: "甲骨文像一只耳朵的形状，有耳廓和耳垂。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "耳得之而为声，目遇之而成色。——苏轼《前赤壁赋》",
-                category: "human"
-            },
-            "心": {
-                pinyin: "xīn",
-                meaning: "象形字，像人的心脏",
-                etymology: "甲骨文像心脏的形状，有心室和血管。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "心有灵犀一点通。——李商隐《无题》",
-                category: "human"
-            },
-            "衣": {
-                pinyin: "yī",
-                meaning: "象形字，像古代上衣的形状",
-                etymology: "甲骨文像古代交领右衽的上衣形状。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "霓为衣兮风为马，云之君兮纷纷而来下。——李白《梦游天姥吟留别》",
-                category: "daily"
-            },
-            "食": {
-                pinyin: "shí",
-                meaning: "象形字，像盛有食物的器皿",
-                etymology: "甲骨文像盛满食物的器皿，上有盖子。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "谁知盘中餐，粒粒皆辛苦。——李绅《悯农》",
-                category: "daily"
-            },
-            "住": {
-                pinyin: "zhù",
-                meaning: "形声字，从人主声",
-                etymology: "甲骨文由'人'和'主'组成，表示人停留在一个地方。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "竹喧归浣女，莲动下渔舟。随意春芳歇，王孙自可留。——王维《山居秋暝》",
-                category: "daily"
-            },
-            "行": {
-                pinyin: "xíng",
-                meaning: "象形字，像十字路口",
-                etymology: "甲骨文像十字路口的形状，表示可以通行。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "行到水穷处，坐看云起时。——王维《终南别业》",
-                category: "daily"
-            },
-            "父": {
-                pinyin: "fù",
-                meaning: "象形字，像手持石斧的形状",
-                etymology: "甲骨文像手持石斧的形状，表示从事劳动的男性长辈。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "哀哀父母，生我劬劳。——《诗经·小雅·蓼莪》",
-                category: "human"
-            },
-            "母": {
-                pinyin: "mǔ",
-                meaning: "象形字，像哺乳的女性",
-                etymology: "甲骨文在'女'字基础上加两点表示乳房，强调哺乳功能。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "慈母手中线，游子身上衣。——孟郊《游子吟》",
-                category: "human"
-            },
-            "儿": {
-                pinyin: "ér",
-                meaning: "象形字，像婴儿头顶囟门未合的形状",
-                etymology: "甲骨文像婴儿头大身小的形状，头顶囟门未合。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "儿童相见不相识，笑问客从何处来。——贺知章《回乡偶书》",
-                category: "human"
-            },
-            "王": {
-                pinyin: "wáng",
-                meaning: "象形字，像斧钺的形状",
-                etymology: "甲骨文像斧钺的形状，象征军事统帅权，后引申为君主。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "秦王扫六合，虎视何雄哉！——李白《古风》",
-                category: "human"
-            },
-            "上": {
-                pinyin: "shàng",
-                meaning: "指事字，表示位置在上",
-                etymology: "甲骨文在一横上面加一短横，表示位置在上方。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "上有青冥之长天，下有渌水之波澜。——李白《长相思》",
-                category: "number"
-            },
-            "下": {
-                pinyin: "xià",
-                meaning: "指事字，表示位置在下",
-                etymology: "甲骨文在一横下面加一短横，表示位置在下方。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "下马饮君酒，问君何所之？——王维《送别》",
-                category: "number"
-            },
-            "大": {
-                pinyin: "dà",
-                meaning: "象形字，像正面站立的人形",
-                etymology: "甲骨文像正面站立、伸展四肢的人形，表示'大'的概念。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "大漠孤烟直，长河落日圆。——王维《使至塞上》",
-                category: "number"
-            },
-            "小": {
-                pinyin: "xiǎo",
-                meaning: "象形字，像细小的沙粒",
-                etymology: "甲骨文像三个细小的沙粒，表示微小的概念。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "小楼一夜听春雨，深巷明朝卖杏花。——陆游《临安春雨初霁》",
-                category: "number"
-            },
-            "多": {
-                pinyin: "duō",
-                meaning: "会意字，由两个'夕'组成",
-                etymology: "甲骨文由两个'夕'(月)组成，表示重复、众多。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "多情自古伤离别，更那堪冷落清秋节！——柳永《雨霖铃》",
-                category: "number"
-            },
-            "少": {
-                pinyin: "shǎo",
-                meaning: "指事字，表示数量不多",
-                etymology: "甲骨文像几个小点，表示数量不多。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "少小离家老大回，乡音无改鬓毛衰。——贺知章《回乡偶书》",
-                category: "number"
-            },
-            "中": {
-                pinyin: "zhōng",
-                meaning: "指事字，表示在中间",
-                etymology: "甲骨文像旗杆中间有飘带，表示在中央位置。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "中军置酒饮归客，胡琴琵琶与羌笛。——岑参《白雪歌送武判官归京》",
-                category: "number"
-            },
-            "一": {
-                pinyin: "yī",
-                meaning: "指事字，表示最小的整数",
-                etymology: "甲骨文用一横表示数字一，是最简单的数字符号。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "一日不见，如三秋兮。——《诗经·王风·采葛》",
-                category: "number"
-            },
-            "二": {
-                pinyin: "èr",
-                meaning: "指事字，表示数字二",
-                etymology: "甲骨文用两横表示数字二，上下排列。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "二月初惊见草芽。——韩愈《春雪》",
-                category: "number"
-            },
-            "三": {
-                pinyin: "sān",
-                meaning: "指事字，表示数字三",
-                etymology: "甲骨文用三横表示数字三，上下排列。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "三杯两盏淡酒，怎敌他、晚来风急？——李清照《声声慢》",
-                category: "number"
-            },
-            "牛": {
-                pinyin: "niú",
-                meaning: "象形字，像牛头的形状",
-                etymology: "甲骨文像牛头的正面形状，有弯曲的牛角。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "牧童骑黄牛，歌声振林樾。——袁枚《所见》",
-                category: "animal"
-            },
-            "羊": {
-                pinyin: "yáng",
-                meaning: "象形字，像羊头的形状",
-                etymology: "甲骨文像羊头的正面形状，有弯曲的羊角。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "天苍苍，野茫茫，风吹草低见牛羊。——《敕勒歌》",
-                category: "animal"
-            },
-            "犬": {
-                pinyin: "quǎn",
-                meaning: "象形字，像狗的侧面形状",
-                etymology: "甲骨文像狗的侧面形状，有耳、身、尾，腹部瘦削。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "柴门闻犬吠，风雪夜归人。——刘长卿《逢雪宿芙蓉山主人》",
-                category: "animal"
-            },
-            "鸟": {
-                pinyin: "niǎo",
-                meaning: "象形字，像鸟的形状",
-                etymology: "甲骨文像侧立的鸟形，有喙、羽、爪。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "春眠不觉晓，处处闻啼鸟。——孟浩然《春晓》",
-                category: "animal"
-            },
-            "虫": {
-                pinyin: "chóng",
-                meaning: "象形字，像蛇的形状",
-                etymology: "甲骨文像一条盘曲的蛇，后泛指各种昆虫。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "穿花蛱蝶深深见，点水蜻蜓款款飞。——杜甫《曲江》",
-                category: "animal"
-            },
-            "米": {
-                pinyin: "mǐ",
-                meaning: "象形字，像米粒的形状",
-                etymology: "甲骨文像散落的米粒，中间一横表示筛子。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "谁知盘中餐，粒粒皆辛苦。——李绅《悯农》",
-                category: "daily"
-            },
-            "禾": {
-                pinyin: "hé",
-                meaning: "象形字，像谷子成熟下垂的形状",
-                etymology: "甲骨文像谷穗成熟下垂的禾本科植物。",
-                evolution: "甲骨文 → 金文 → 小篆 → 隶书 → 楷书",
-                poetry: "锄禾日当午，汗滴禾下土。——李绅《悯农》",
-                category: "nature"
-            }
+            // 可以添加更多字符数据
         };
 
-        // DOM元素
-        const searchInput = document.getElementById('search-input');
-        const searchBtn = document.getElementById('search-btn');
-        const animationDisplay = document.getElementById('animation-display');
-        const charName = document.getElementById('char-name');
-        const charPinyin = document.getElementById('char-pinyin');
-        const charMeaning = document.getElementById('char-meaning');
-        const charEtymology = document.getElementById('char-etymology');
-        const charEvolution = document.getElementById('char-evolution');
-        const charPoetry = document.getElementById('char-poetry');
-        const characterGrid = document.getElementById('character-grid');
-        const categoryBtns = document.querySelectorAll('.category-btn');
-
-        // 初始化字符网格
-        function initCharacterGrid() {
-            characterGrid.innerHTML = '';
-            for (const char in characterData) {
-                const charItem = document.createElement('div');
-                charItem.className = 'character-item';
-                charItem.setAttribute('data-category', characterData[char].category);
-                charItem.innerHTML = `
-                    <div class="char-display">${char}</div>
-                    <div class="char-name">${characterData[char].pinyin}</div>
-                `;
-                charItem.addEventListener('click', () => showCharacter(char));
-                characterGrid.appendChild(charItem);
-            }
-        }
-
-        // 显示字符信息
-        function showCharacter(char) {
-            console.log("显示字符:", char);
-            
-            if (characterData[char]) {
-                const data = characterData[char];
-                
-                // 更新文本信息
-                charName.textContent = char;
-                charPinyin.textContent = data.pinyin;
-                charMeaning.textContent = data.meaning;
-                charEtymology.textContent = data.etymology;
-                charEvolution.textContent = data.evolution;
-                charPoetry.textContent = data.poetry;
-                
-                // 更新动画显示 - 使用实际的GIF图片
-                const gifPath = `animations/${char}.gif`;
-                
-                // 创建图片元素
-                const img = document.createElement('img');
-                img.src = gifPath;
-                img.alt = `${char}字甲骨文演变动画`;
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'contain';
-                
-                // 设置加载错误处理
-                img.onerror = function() {
-                    // 如果GIF文件不存在，显示备用内容
-                    animationDisplay.innerHTML = `
-                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                            <div style="font-size:6em;margin-bottom:20px;">${char}</div>
-                            <p>暂未收录"${char}"字的甲骨文动画</p>
-                            <p style="font-size:0.9em;color:#755c2e;margin-top:10px;">动画文件 ${gifPath} 未找到</p>
-                        </div>
-                    `;
-                };
-                
-                // 清空容器并添加图片
-                animationDisplay.innerHTML = '';
-                animationDisplay.appendChild(img);
-                
-                // 滚动到动画区域
-                animationDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                // 如果字符不存在于数据库中
-                charName.textContent = char;
-                charPinyin.textContent = '';
-                charMeaning.textContent = '暂未收录该字的信息';
-                charEtymology.textContent = '';
-                charEvolution.textContent = '';
-                charPoetry.textContent = '';
-                
-                animationDisplay.innerHTML = `
-                    <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                        <div style="font-size:6em;margin-bottom:20px;">${char}</div>
-                        <p>暂未收录"${char}"字的甲骨文动画</p>
-                        <p style="font-size:0.9em;color:#755c2e;margin-top:10px;">敬请期待后续更新</p>
-                    </div>
-                `;
-            }
-        }
-
-        // 搜索功能
-        function searchCharacter() {
-            const char = searchInput.value.trim();
-            if (char) {
-                showCharacter(char);
-            }
-        }
-
-        // 分类筛选
-        function filterByCategory(category) {
-            const items = characterGrid.querySelectorAll('.character-item');
-            items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // 事件监听
-        searchBtn.addEventListener('click', searchCharacter);
-        searchInput.addEventListener('keypress', (e) => {
+        document.getElementById('searchButton').addEventListener('click', searchCharacter);
+        document.getElementById('characterInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 searchCharacter();
             }
         });
 
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                filterByCategory(btn.getAttribute('data-category'));
-            });
-        });
+        function searchCharacter() {
+            const input = document.getElementById('characterInput').value.trim();
+            if (!input) return;
+            
+            const char = input.charAt(0); // 取第一个字符
+            const data = characterData[char] || {
+                pinyin: "-",
+                meaning: "-",
+                etymology: "-",
+                evolution: "-",
+                poetry: "-"
+            };
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initCharacterGrid();
-            showCharacter('人'); // 默认显示"人"字
-        });
+            // 更新文本信息
+            document.getElementById('charName').textContent = char;
+            document.getElementById('charPinyin').textContent = data.pinyin;
+            document.getElementById('charMeaning').textContent = data.meaning;
+            document.getElementById('charEtymology').textContent = data.etymology;
+            document.getElementById('charEvolution').textContent = data.evolution;
+            document.getElementById('charPoetry').textContent = data.poetry;
+
+            // 更新动画显示 - 使用实际的GIF图片
+            const animationDisplay = document.getElementById('animationDisplay');
+            
+            // 创建图片元素
+            const img = document.createElement('img');
+            img.src = `animations/${char}.gif`;
+            img.alt = `${char}字甲骨文演变动画`;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+
+            // 设置加载错误处理
+            img.onerror = function() {
+                // 如果GIF文件不存在，显示备用内容
+                animationDisplay.innerHTML = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;"> 
+                    <div style="font-size:6em;margin-bottom:20px;">${char}</div>
+                    <p>暂未收录"${char}"字的甲骨文动画</p>
+                    <p style="font-size:0.9em;color:#755c2e;margin-top:10px;">动画文件 animations/${char}.gif 未找到</p>
+                </div>`;
+            };
+
+            // 清空动画显示区域并添加图片
+            animationDisplay.innerHTML = '';
+            animationDisplay.appendChild(img);
+        }
     </script>
 </body>
 </html>
